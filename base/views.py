@@ -80,6 +80,7 @@ def addProducts(req):
     else:
         return Response('faild')
 
+
 @api_view(['DELETE'])
 @permission_classes([IsAuthenticated])
 def deleteProd(req, id):
