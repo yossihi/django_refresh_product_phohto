@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+
+<body>
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <form id="loginForm" action="#" method="post" class="bg-white p-4 rounded shadow">
+                    <h2 class="mb-4">Login</h2>
+                    <div class="form-group">
+                        <label for="username">Username:</label>
+                        <input type="text" id="username" name="username" class="form-control" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Password:</label>
+                        <input type="password" id="password" name="password" class="form-control" required>
+                    </div>
+
+                    <div class="form-group form-check">
+                        <input type="checkbox" id="rememberMe" name="rememberMe" class="form-check-input">
+                        <label class="form-check-label" for="rememberMe"> Remember Me</label>
+                    </div>
+
+                    <button type="button" onclick="login()" class="btn btn-success">Login</button>
+                </form>
+
+                <form id="registerForm" action="#" method="post" class="bg-white p-4 rounded shadow"
+                    style="display: none;">
+                    <h2 class="mb-4">Register</h2>
+                    <div class="form-group">
+                        <label for="newUsername">Username:</label>
+                        <input type="text" id="newUsername" name="newUsername" class="form-control" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="newPassword">Password:</label>
+                        <input type="password" id="newPassword" name="newPassword" class="form-control" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" name="email" class="form-control" required>
+                    </div>
+
+                    <button type="button" onclick="register()" class="btn btn-primary">Register</button>
+                </form>
+
+                <button onclick="toggleForm()" class="btn btn-link mt-3">Switch to Register</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and Popper.js -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    <script>
+        const login = async () => {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const rememberMe = document.getElementById('rememberMe').checked;
+
+            // Make a POST request to your server for authentication
+            await axios.post('http://127.0.0.1:8000/login', {
+                username: username,
+                password: password,
+            })
+                .then(response => {
+                    // Assuming the server responds with an access token
+                    console.log(response.data);
+                    const accessToken = response.data.access;
+                    const refreshToken = response.data.refresh
+                    // Store the access token in local storage
+                    localStorage.setItem('access_token', accessToken);
+                    if (rememberMe) {
+                        localStorage.setItem('refresh_token', JSON.stringify(refreshToken));
+                    } else {
+                        localStorage.setItem("refresh_token", "")
+                    }
+                    window.location.href = 'dashboard.html'
+                })
+                .catch(error => {
+                    console.error('Login failed:', error);
+                });
+        }
+
+        function register() {
+            const newUsername = document.getElementById('newUsername').value;
+            const newPassword = document.getElementById('newPassword').value;
+            const email = document.getElementById('email').value;
+
+            // Make a POST request to your server for registration
+            axios.post('http://127.0.0.1:8000/register', {
+                username: newUsername,
+                password: newPassword,
+                email: email,
+            })
+                .then(response => {
+                    console.log('Registration successful:', response);
+                    // Handle registration success, maybe redirect to login page, show a success message, etc.
+                })
+                .catch(error => {
+                    console.error('Registration failed:', error);
+                    // Handle registration failure, show an error message, etc.
+                });
+        }
+
+        function toggleForm() {
+            const loginForm = document.getElementById('loginForm');
+            const registerForm = document.getElementById('registerForm');
+
+            if (loginForm.style.display === "none") {
+                loginForm.style.display = "block";
+                registerForm.style.display = "none";
+            } else {
+                loginForm.style.display = "none";
+                registerForm.style.display = "block";
+            }
+        }
+    </script>
+</body>
+
+</html>
