@@ -98,7 +98,7 @@
                 // call the refresh on the server - refresh
                 ref_token = localStorage.getItem("refresh_token")
                 if (ref_token) {
-                    let token = await axios.post("http://127.0.0.1:8000/" + "refresh", {
+                    let token = await axios.post("https://django-refresh-product-phohto-1.onrender.com/" + "refresh", {
                         "refresh": JSON.parse(ref_token)
 
                     });
@@ -144,7 +144,7 @@
             await checkIfLogin();
             const access = localStorage.getItem('access_token');
 
-            axios.get('http://127.0.0.1:8000/myProducts', {
+            axios.get('https://django-refresh-product-phohto-1.onrender.com/myProducts', {
                 headers: {
                     Authorization: "Bearer " + access,
                 },
@@ -194,7 +194,7 @@
             if (image.files[0]) { formData.append('image', image.files[0]); }
 
 
-            axios.post('http://127.0.0.1:8000/addProducts', formData, {
+            axios.post('https://django-refresh-product-phohto-1.onrender.com/addProducts', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                     Authorization: "Bearer " + access,
@@ -216,7 +216,7 @@
             access = localStorage.getItem('access_token')
 
 
-            axios.delete(`http://127.0.0.1:8000/deleteProd/${prodID}`, {
+            axios.delete(`https://django-refresh-product-phohto-1.onrender.com/deleteProd/${prodID}`, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                     Authorization: "Bearer " + access,
