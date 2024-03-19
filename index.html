@@ -73,7 +73,7 @@
             const rememberMe = document.getElementById('rememberMe').checked;
 
             // Make a POST request to your server for authentication
-            await axios.post('http://127.0.0.1:8000/login', {
+            await axios.post('https://django-refresh-product-phohto-1.onrender.com/login', {
                 username: username,
                 password: password,
             })
@@ -102,7 +102,7 @@
             const email = document.getElementById('email').value;
 
             // Make a POST request to your server for registration
-            axios.post('http://127.0.0.1:8000/register', {
+            axios.post('https://django-refresh-product-phohto-1.onrender.com/register', {
                 username: newUsername,
                 password: newPassword,
                 email: email,
